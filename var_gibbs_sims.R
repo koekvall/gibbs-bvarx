@@ -1,5 +1,6 @@
 ########################################################################
 # This example assumes q = 1, C = Identity, D = 0, m = 0, a = 0, X = 1_n
+# See the paper for notation.
 ########################################################################
 
 
@@ -45,8 +46,8 @@ get_epsilon <- function(S, Tconst, n, logarithm = T){
 
 # SIMULATION
 FIG1 <- FALSE # Produces Fig 2 if FALSE
-PDF <- FALSE  # Plot in R instead of producing pdf if FALSE
-out_dir <- "~/GDrive/Research/var_gibbs/sims/" # end in "/", used if PDF = TRUE
+PDF <- TRUE  # Plot in R instead of producing pdf if FALSE
+out_dir <- "~/GitHub/gibbs-bvarx/" # end in "/", used if PDF = TRUE
 
 set.seed(3)
 r <- 10
@@ -141,11 +142,17 @@ if(FIG1){
 if(!FIG1){
   if(PDF) pdf(paste(out_dir, "fig_2.pdf", sep = ""), width = 12.5, height = 5)
   true_log_eps <- -r^2 * (r + sum(A^2))
+  par(mfrow = c(1, 2))
   plot(n_seq, log_eps,
        xlab = "n",
        ylab = expression(paste("log ", epsilon[n])),
-       ylim = c(true_log_eps, true_log_eps / 1.5))
+       ylim = c(true_log_eps, true_log_eps / 1.5),
+       main = "Large sample drift function")
   lines(n_seq,log_eps_pop, col = "red", lwd = 2, lty = 2)
-  lines(n_seq,log_eps_fix, col = "darkgreen", lwd = 2, lty = 3)
+  plot(n_seq, log_eps_fix,
+       xlab = "n",
+       ylab = expression(paste("log ", epsilon[n])),
+       main = "Small sample drift function")
+  par(mfrow = c(1, 1))
   if(PDF) dev.off()
 }
