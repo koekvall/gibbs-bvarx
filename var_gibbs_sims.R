@@ -45,7 +45,7 @@ get_epsilon <- function(S, Tconst, n, logarithm = T){
 }
 
 # SIMULATION
-FIG1 <- FALSE # Produces Fig 2 if FALSE
+FIG1 <- TRUE # Produces Fig 2 if FALSE
 PDF <- TRUE  # Plot in R instead of producing pdf if FALSE
 out_dir <- "~/GitHub/gibbs-bvarx/" # end in "/", used if PDF = TRUE
 
@@ -126,15 +126,15 @@ if(FIG1){
   if(PDF) pdf(paste(out_dir, "fig_1.pdf", sep = ""), width = 12.5, height = 5)
   par(mfrow = c(1, 2))
   plot(n_seq, lambda, xlab = "n", ylab = expression(lambda[n]))
-  abline(v = n_seq[min(which(lambda < 1))], lwd = 2)
-  lines(n_seq, lambda_pop, col = "red", lwd = 2, lty = 2)
+  abline(v = n_seq[min(which(lambda < 1))], lwd = 3)
+  lines(n_seq, lambda_pop, col = "red", lwd = 3, lty = 2)
   plot(n_seq, L,
        xlab = "n",
        ylab = expression(L[n]),
        ylim = c(min(c(L_pop, L, L_fix)), max(c(L, L_fix))))
-  abline(a = sigma, b = 0, lwd = 2)
-  lines(n_seq, L_pop, col = "red", lwd = 2, lty = 2)
-  lines(n_seq, L_fix, col = "darkgreen", lwd = 2, lty = 3)
+  abline(a = sigma, b = 0, lwd = 3)
+  lines(n_seq, L_pop, col = "red", lwd = 3, lty = 2)
+  lines(n_seq, L_fix, col = "darkgreen", lwd = 3, lty = 3)
   if(PDF) dev.off()
   par(mfrow = c(1, 1))
 }
@@ -148,7 +148,7 @@ if(!FIG1){
        ylab = expression(paste("log ", epsilon[n])),
        ylim = c(true_log_eps, true_log_eps / 1.5),
        main = "Large sample drift function")
-  lines(n_seq,log_eps_pop, col = "red", lwd = 2, lty = 2)
+  lines(n_seq,log_eps_pop, col = "red", lwd = 3, lty = 2)
   plot(n_seq, log_eps_fix,
        xlab = "n",
        ylab = expression(paste("log ", epsilon[n])),
