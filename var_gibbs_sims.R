@@ -45,9 +45,9 @@ get_epsilon <- function(S, Tconst, n, logarithm = T){
 }
 
 # SIMULATION
-FIG1 <- TRUE # Produces Fig 2 if FALSE
-PDF <- TRUE  # Plot in R instead of producing pdf if FALSE
-out_dir <- "~/GitHub/gibbs-bvarx/" # end in "/", used if PDF = TRUE
+FIG1 <- FALSE # Produces Fig 2 if FALSE
+EPS <- TRUE  # Plot in R instead of producing eps if FALSE
+out_dir <- "~/GitHub/gibbs-bvarx/" # end in "/", used if EPS = TRUE
 
 set.seed(3)
 r <- 10
@@ -119,12 +119,17 @@ for(ii in 1:length(n_seq)){
 }
 
 # PRODUCE PLOTS
-par(cex.axis = 1.3, cex.lab = 1.3)
-par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.6,1.5,1.1))
-
 if(FIG1){
-  if(PDF) pdf(paste(out_dir, "fig_1.pdf", sep = ""), width = 12.5, height = 5)
+  if(EPS){
+    setEPS()
+    postscript(paste(out_dir, "fig_1.eps", sep = ""),
+               width = 12.5,
+               height = 5,
+               paper = "special")
+  } 
   par(mfrow = c(1, 2))
+  par(cex.axis = 1.3, cex.lab = 1.3)
+  par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.6,1.5,1.1))
   plot(n_seq, lambda, xlab = "n", ylab = expression(lambda[n]))
   abline(v = n_seq[min(which(lambda < 1))], lwd = 3)
   lines(n_seq, lambda_pop, col = "red", lwd = 3, lty = 2)
@@ -135,12 +140,17 @@ if(FIG1){
   abline(a = sigma, b = 0, lwd = 3)
   lines(n_seq, L_pop, col = "red", lwd = 3, lty = 2)
   lines(n_seq, L_fix, col = "darkgreen", lwd = 3, lty = 3)
-  if(PDF) dev.off()
-  par(mfrow = c(1, 1))
+  if(EPS) dev.off()
 }
 
 if(!FIG1){
-  if(PDF) pdf(paste(out_dir, "fig_2.pdf", sep = ""), width = 12.5, height = 5)
+  if(EPS){
+    setEPS()
+    postscript(paste(out_dir, "fig_2.eps", sep = ""),
+               width = 12.5,
+               height = 5,
+               paper = "special")
+  }
   true_log_eps <- -r^2 * (r + sum(A^2))
   par(mfrow = c(1, 2))
   plot(n_seq, log_eps,
@@ -153,6 +163,5 @@ if(!FIG1){
        xlab = "n",
        ylab = expression(paste("log ", epsilon[n])),
        main = "Small sample drift function")
-  par(mfrow = c(1, 1))
-  if(PDF) dev.off()
+  if(EPS) dev.off()
 }
